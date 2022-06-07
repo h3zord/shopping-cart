@@ -39,19 +39,17 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
 };
 
 const createProductsList = async () => {
-  const recoverSectionItems = document.getElementsByClassName('items')[0];
-  const data = await fetchProducts('computador');
-  const products = data.results;
-
-  for (let index = 0; index < products.length; index += 1) {
-    const id = products[index].id;
-    const title = products[index].title;
-    const image = products[index].thumbnail;
-    const product = createProductItemElement({ id, title, image });
+  const recoverSectionItems = document.querySelector('#itens-list'); 
+  const { results } = await fetchProducts('computador');
+  results.forEach((element) => {
+    const { id } = element;
+    const { title } = element;
+    const { thumbnail } = element;
+    const product = createProductItemElement({ id, title, thumbnail });
     recoverSectionItems.appendChild(product);
-  }
+  });
 };
 
-createProductsList();
-
-// window.onload = () => { };
+window.onload = () => {
+  createProductsList();
+};

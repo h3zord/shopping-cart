@@ -5,10 +5,12 @@ const fetchProducts = async (query) => {
   const promisse = await fetch(url);
   const data = await promisse.json();
   return data;
-} catch (error) {
+ } catch (error) {
   return error;
-}
+ }
 };
+
+
 
 if (typeof module !== 'undefined') {
   module.exports = {
