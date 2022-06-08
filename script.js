@@ -24,28 +24,30 @@ const createProductItemElement = ({ sku, name, image }) => {
   return section;
 };
 
-const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
+// const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
-const cartItemClickListener = (event) => {
-  // coloque seu código aqui  
-};
+// const cartItemClickListener = (event) => {
+//   // coloque seu código aqui  
+// };
 
-const createCartItemElement = ({ sku, name, salePrice }) => {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-};
+// const createCartItemElement = ({ sku, name, salePrice }) => {
+//   const li = document.createElement('li');
+//   li.className = 'cart__item';
+//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+//   li.addEventListener('click', cartItemClickListener);
+//   return li;
+// };
 
 const createProductsList = async () => {
   const recoverSectionItems = document.querySelector('#itens-list'); 
   const { results } = await fetchProducts('computador');
-  results.forEach((element) => {
-    const { id } = element;
-    const { title } = element;
-    const { thumbnail } = element;
-    const product = createProductItemElement({ id, title, thumbnail });
+  const listResult = results.map(({ id, title, thumbnail }) => ({
+      sku: id,
+      name: title,
+      image: thumbnail,      
+  }));
+  listResult.forEach((element) => {
+    const product = createProductItemElement(element);
     recoverSectionItems.appendChild(product);
   });
 };
