@@ -1,3 +1,6 @@
+const recoverH3 = document.querySelector('.total-price');
+let totalPrice = 0;
+
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -29,7 +32,6 @@ const createProductItemElement = ({ sku, name, image }) => {
 const cartItemClickListener = (event) => {
   // coloque seu código aqui
   const ev = event;
-  console.log(ev.target);
   ev.target.remove();
 };
 
@@ -56,6 +58,14 @@ const createProductsList = async () => {
   });
 };
 
+const sumPrice = (productPrice) => {
+  totalPrice += productPrice;
+  const price = Math.abs(totalPrice).toLocaleString('pt-br', { minimumFractionDigits: 2 });
+  const totalBuy = `Total da Compra: R$ ${price}`;
+  recoverH3.innerText = totalBuy;
+  localStorage.setItem('price', totalPrice.toFixed(2));
+};
+
 const createObj = async (cod) => {
   recoverSectionItensCar = document.querySelector('#itens-list-car');
   const { id, title, price } = await fetchItem(cod);
@@ -66,6 +76,15 @@ const createObj = async (cod) => {
   };
   const product = createCartItemElement(obj);
   recoverSectionItensCar.appendChild(product);
+  const productPrice = obj.salePrice;
+  sumPrice(productPrice);
+  product.addEventListener('click', () => {
+    totalPrice -= productPrice;
+    const price2 = Math.abs(totalPrice).toLocaleString('pt-br', { minimumFractionDigits: 2 });
+    const totalBuy = `Total da Compra: R$ ${price2}`;
+    recoverH3.innerText = totalBuy;
+    localStorage.setItem('price', totalPrice.toFixed(2));
+  });
 };
 
 const recoverId = (event) => {
@@ -79,6 +98,28 @@ const recoverId = (event) => {
 const recoverItens = document.getElementById('itens-list');
 recoverItens.addEventListener('click', recoverId);
 
+  const recoverButtonClear = document.querySelector('.empty-cart');
+  recoverButtonClear.addEventListener('click', () => {
+    const recoverItensListCar = document.querySelector('#itens-list-car');
+    recoverItensListCar.innerHTML = '';
+    localStorage.setItem('price', 0);
+    totalPrice = 0;
+    recoverH3.innerText = 'Total da Compra: R$ 0,00';
+});
+
+const refreshPrice = () => {
+  const getPrice = localStorage.getItem('price');
+  if (getPrice !== null) {
+    const price = Math.abs(getPrice).toLocaleString('pt-br', { minimumFractionDigits: 2 });
+    const totalBuy = `Total da Compra: R$ ${price}`;
+    recoverH3.innerText = totalBuy;
+    totalPrice = parseFloat(getPrice);
+  } else {
+    recoverH3.innerText = 'Total da Compra: R$ 0,00';
+  }
+};
+
 window.onload = () => {
   createProductsList();
+  refreshPrice();
 };
