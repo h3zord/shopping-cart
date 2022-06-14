@@ -59,9 +59,9 @@ const createProductsList = async () => {
 };
 
 const sumPrice = (productPrice) => {
-  totalPrice += productPrice;
-  const price = Math.abs(totalPrice).toLocaleString('pt-br', { minimumFractionDigits: 2 });
-  const totalBuy = `Total da Compra: R$ ${price}`;
+  totalPrice += productPrice; 
+  // const price = Math.abs(totalPrice).toLocaleString('pt-br', { minimumFractionDigits: 0 });
+  const totalBuy = `${totalPrice}`;
   recoverH3.innerText = totalBuy;
   localStorage.setItem('price', totalPrice.toFixed(2));
 };
@@ -80,8 +80,8 @@ const createObj = async (cod) => {
   sumPrice(productPrice);
   product.addEventListener('click', () => {
     totalPrice -= productPrice;
-    const price2 = Math.abs(totalPrice).toLocaleString('pt-br', { minimumFractionDigits: 2 });
-    const totalBuy = `Total da Compra: R$ ${price2}`;
+    // const price2 = Math.abs(totalPrice).toLocaleString('pt-br', { minimumFractionDigits: 0 });
+    const totalBuy = `${totalPrice}`;
     recoverH3.innerText = totalBuy;
     localStorage.setItem('price', totalPrice.toFixed(2));
   });
@@ -110,7 +110,7 @@ recoverItens.addEventListener('click', recoverId);
 const refreshPrice = () => {
   const getPrice = localStorage.getItem('price');
   if (getPrice !== null) {
-    const price = Math.abs(getPrice).toLocaleString('pt-br', { minimumFractionDigits: 2 });
+    const price = Math.abs(getPrice).toLocaleString('pt-br', { minimumFractionDigits: 0 });
     const totalBuy = `Total da Compra: R$ ${price}`;
     recoverH3.innerText = totalBuy;
     totalPrice = parseFloat(getPrice);
