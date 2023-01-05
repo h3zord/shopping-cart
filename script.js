@@ -3,7 +3,7 @@ const recoverSectionItems = document.querySelector('#itens-list');
 const recoverItens = document.getElementById('itens-list');
 const recoverButtonClear = document.querySelector('.empty-cart');
 const recoverItensListCar = document.querySelector('#itens-list-car');
-let totalPrice = 0;
+let totalPrice = 0.00;
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -30,12 +30,12 @@ const createProductItemElement = ({ sku, name, image }) => {
   return section;
 };
 
-// const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
-
-const createCartItemElement = ({ sku, name, salePrice }) => {
+const createCartItemElement = ({ name, salePrice }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.innerText = `${name}
+
+  - PRICE: R$ ${salePrice.toFixed(2)}`;
   return li;
 };
 
@@ -64,15 +64,15 @@ const refreshCart = () => {
 
 const sumPrice = (productPrice) => {
   totalPrice += productPrice;
-  recoverH3.innerText = totalPrice;
+  recoverH3.innerText = `Valor Total: R$ ${totalPrice.toFixed(2)}`;
   localStorage.setItem('price', totalPrice.toFixed(2));
   refreshCart();  
 };
 
 const subPrice = (ev) => {
-  const productPrice = ev.target.innerHTML.split(' PRICE: $', 2)[1];
+  const productPrice = ev.target.innerHTML.split(' PRICE: R$', 2)[1];
   totalPrice -= productPrice;
-  recoverH3.innerText = totalPrice;
+  recoverH3.innerText = `Valor Total: R$ ${totalPrice.toFixed(2)}`;
   localStorage.setItem('price', totalPrice.toFixed(2));
 };
 
@@ -114,7 +114,7 @@ const clearCart = () => {
   recoverItensListCar.innerHTML = '';
   localStorage.setItem('price', 0);
   totalPrice = 0;
-  recoverH3.innerText = totalPrice;
+  recoverH3.innerText = `Valor Total: R$ ${totalPrice.toFixed(2)}`;
   saveCartItems('');
 };
 
@@ -123,10 +123,10 @@ recoverButtonClear.addEventListener('click', clearCart);
 const refreshPrice = () => {
   const getPrice = localStorage.getItem('price');
   if (getPrice !== null) {
-    recoverH3.innerText = getPrice;
     totalPrice = parseFloat(getPrice);
+    recoverH3.innerText = `Valor Total: R$ ${totalPrice.toFixed(2)}`;
   } else {
-    recoverH3.innerText = 0;
+    recoverH3.innerText = `Valor Total: R$ ${0.00}`;
   }
 };
 

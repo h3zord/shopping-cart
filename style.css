@@ -140,10 +140,20 @@ body {
   overflow-y: scroll;
 }
 
+.cart__item {
+  border-bottom: 1px solid black;
+  padding: 15px;
+  cursor: pointer;
+}
+
 .empty-cart {
   width: 170px;
   height: 35px;
   margin: 0 auto;
   border: 2px solid rgb(5, 52, 219);
   background-color: rgb(249, 249, 246);
+}
+
+h3 {
+  padding: 30px;
 }
